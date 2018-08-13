@@ -6,6 +6,8 @@ import io.freddief.marketplace.validator.LimitOrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class BidService {
 
@@ -22,6 +24,10 @@ public class BidService {
     public Bid create(Bid bid) {
         limitOrderValidator.validate(bid);
         return bidRepository.create(bid);
+    }
+
+    public List<Bid> findAllByUserId(String userId) {
+        return bidRepository.findAllByUserId(userId);
     }
 
 }

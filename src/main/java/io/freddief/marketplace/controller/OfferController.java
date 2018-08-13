@@ -4,13 +4,17 @@ import io.freddief.marketplace.dto.CreateOffer;
 import io.freddief.marketplace.dto.Offer;
 import io.freddief.marketplace.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/offer")
+@RequestMapping("/offers")
 public class OfferController {
 
     private final OfferService offerService;
@@ -26,6 +30,14 @@ public class OfferController {
             offerService.create(
                 createOffer.toDomain())
         );
+    }
+
+    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
+    public List<Offer> findAllByUserId(@PathVariable String userId) {
+        return offerService.findAllByUserId(userId)
+            .stream()
+            .map(Offer::fromDomain)
+            .collect(Collectors.toList());
     }
 
 }

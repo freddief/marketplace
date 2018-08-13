@@ -3,12 +3,15 @@ package io.freddief.marketplace.service;
 import io.freddief.marketplace.domain.Offer;
 import io.freddief.marketplace.repository.OfferRepository;
 import io.freddief.marketplace.validator.LimitOrderValidator;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,4 +58,18 @@ public class OfferServiceTest {
 
         assertThat(returned).isEqualTo(offer);
     }
+
+    @Test
+    public void findAllByUserId_callsRepository() {
+        offerService.findAllByUserId("userId");
+        verify(offerRepository).findAllByUserId("userId");
+    }
+
+    @Test
+    public void findAllByUserId_returnsList() {
+        when(offerRepository.findAllByUserId(any())).thenReturn(Lists.newArrayList(offer));
+        List<Offer> bids = offerService.findAllByUserId("userId");
+        assertThat(bids).isEqualTo(bids);
+    }
+
 }

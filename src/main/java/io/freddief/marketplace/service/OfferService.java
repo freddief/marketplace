@@ -6,6 +6,8 @@ import io.freddief.marketplace.validator.LimitOrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class OfferService {
 
@@ -22,6 +24,10 @@ public class OfferService {
     public Offer create(Offer offer) {
         limitOrderValidator.validate(offer);
         return bidRepository.create(offer);
+    }
+
+    public List<Offer> findAllByUserId(String userId) {
+        return bidRepository.findAllByUserId(userId);
     }
 
 }
