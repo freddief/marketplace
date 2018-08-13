@@ -1,6 +1,6 @@
 package io.freddief.marketplace.dto;
 
-import io.freddief.marketplace.domain.Bid;
+import io.freddief.marketplace.domain.Offer;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -8,19 +8,19 @@ import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CreateBidTest {
+public class CreateOfferTest {
 
     @Test
     public void toDomain() {
 
-        CreateBid createBid = new CreateBid(
+        CreateOffer createOffer = new CreateOffer(
             "itemId",
             12L,
             BigDecimal.valueOf(123.12),
             "userId"
         );
 
-        Bid returned = createBid.toDomain();
+        Offer returned = createOffer.toDomain();
 
         assertThat(returned.getId()).isNotNull();
         assertThat(returned.getItemId()).isEqualTo("itemId");

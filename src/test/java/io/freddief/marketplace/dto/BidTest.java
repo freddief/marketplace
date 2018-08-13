@@ -33,4 +33,5 @@ public class BidTest {
         assertThat(returned.getTimestamp()).isEqualTo(now);
 
     }
+
 }

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Getter
-public class Bid {
+public class Offer {
 
     private final String id;
     private final String itemId;
@@ -19,12 +19,12 @@ public class Bid {
     private final Instant timestamp;
 
     @JsonCreator
-    public Bid(@JsonProperty("id") String id,
-               @JsonProperty("itemId") String itemId,
-               @JsonProperty("quantity") Long quantity,
-               @JsonProperty("pricePerUnit") BigDecimal pricePerUnit,
-               @JsonProperty("userId") String userId,
-               @JsonProperty("timestamp") Instant timestamp) {
+    public Offer(@JsonProperty("id") String id,
+                 @JsonProperty("itemId") String itemId,
+                 @JsonProperty("quantity") Long quantity,
+                 @JsonProperty("pricePerUnit") BigDecimal pricePerUnit,
+                 @JsonProperty("userId") String userId,
+                 @JsonProperty("timestamp") Instant timestamp) {
         this.id = id;
         this.itemId = itemId;
         this.quantity = quantity;
@@ -33,8 +33,8 @@ public class Bid {
         this.timestamp = timestamp;
     }
 
-    public static Bid fromDomain(io.freddief.marketplace.domain.Bid domain) {
-        return new Bid(
+    public static Offer fromDomain(io.freddief.marketplace.domain.Offer domain) {
+        return new Offer(
             domain.getId(),
             domain.getItemId(),
             domain.getQuantity(),

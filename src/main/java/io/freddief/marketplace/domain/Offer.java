@@ -8,14 +8,14 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import static io.freddief.marketplace.domain.Side.BID;
+import static io.freddief.marketplace.domain.Side.OFFER;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class Bid implements LimitOrder {
+public class Offer implements LimitOrder {
 
-    private static final Side SIDE = BID;
+    private static final Side SIDE = OFFER;
 
     private final String id;
     private final String itemId;

@@ -1,7 +1,7 @@
 package io.freddief.marketplace.service;
 
-import io.freddief.marketplace.domain.Bid;
-import io.freddief.marketplace.repository.BidRepository;
+import io.freddief.marketplace.domain.Offer;
+import io.freddief.marketplace.repository.OfferRepository;
 import io.freddief.marketplace.validator.LimitOrderValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,44 +16,43 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BidServiceTest {
+public class OfferServiceTest {
 
     @Mock
-    private BidRepository bidRepository;
+    private OfferRepository offerRepository;
     @Mock
     private LimitOrderValidator limitOrderValidator;
     @InjectMocks
-    private BidService bidService;
+    private OfferService offerService;
 
-    private Bid bid;
+    private Offer offer;
 
     @Before
     public void setup () {
-        bid = Bid.builder()
+        offer = Offer.builder()
             .id("id")
             .build();
     }
 
     @Test
     public void create_callsValidator() {
-        bidService.create(bid);
-        verify(limitOrderValidator).validate(bid);
+        offerService.create(offer);
+        verify(limitOrderValidator).validate(offer);
     }
 
     @Test
     public void create_callsRepository() {
-        bidService.create(bid);
-        verify(bidRepository).create(bid);
+        offerService.create(offer);
+        verify(offerRepository).create(offer);
     }
 
     @Test
-    public void create_returnsBid() {
+    public void create_returnsOffer() {
 
-        when(bidRepository.create(any())).thenReturn(bid);
+        when(offerRepository.create(any())).thenReturn(offer);
 
-        Bid returned = bidService.create(this.bid);
+        Offer returned = offerService.create(this.offer);
 
-        assertThat(returned).isEqualTo(bid);
+        assertThat(returned).isEqualTo(offer);
     }
-
 }

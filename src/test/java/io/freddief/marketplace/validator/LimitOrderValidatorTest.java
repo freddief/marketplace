@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class BidValidatorTest {
+public class LimitOrderValidatorTest {
 
     @InjectMocks
-    private BidValidator bidValidator;
+    private LimitOrderValidator limitOrderValidator;
 
     @Test
     public void validate_valid() {
@@ -29,12 +29,12 @@ public class BidValidatorTest {
             .id(UUID.randomUUID().toString())
             .itemId("itemId")
             .userId("userId")
-            .pricePerUnit(BigDecimal.TEN)
+            .price(BigDecimal.TEN)
             .quantity(12L)
             .timestamp(Instant.now())
             .build();
 
-        bidValidator.validate(bid);
+        limitOrderValidator.validate(bid);
 
     }
 
@@ -44,7 +44,7 @@ public class BidValidatorTest {
         Bid bid = Bid.builder().build();
 
         try {
-            bidValidator.validate(bid);
+            limitOrderValidator.validate(bid);
         } catch (ValidationException ve) {
 
             assertThat(ve.getFailures()).hasSize(6);
@@ -54,7 +54,7 @@ public class BidValidatorTest {
                     new ValidationFailure("'id' must be present"),
                     new ValidationFailure("'itemId' must be present"),
                     new ValidationFailure("'quantity' must be present and cannot be less than or equal to zero"),
-                    new ValidationFailure("'pricePerUnit' must be present and cannot be less than or equal to zero"),
+                    new ValidationFailure("'price' must be present and cannot be less than or equal to zero"),
                     new ValidationFailure("'userId' must be present"),
                     new ValidationFailure("'timestamp' must be present")
                 ));
@@ -72,14 +72,14 @@ public class BidValidatorTest {
             .id(UUID.randomUUID().toString())
             .itemId("itemId")
             .userId("userId")
-            .pricePerUnit(BigDecimal.TEN)
+            .price(BigDecimal.TEN)
             .quantity(0L)
             .timestamp(Instant.now())
             .build();
 
 
         try {
-            bidValidator.validate(bid);
+            limitOrderValidator.validate(bid);
         } catch (ValidationException ve) {
 
             assertThat(ve.getFailures()).hasSize(1);
@@ -101,14 +101,14 @@ public class BidValidatorTest {
             .id(UUID.randomUUID().toString())
             .itemId("itemId")
             .userId("userId")
-            .pricePerUnit(BigDecimal.TEN)
+            .price(BigDecimal.TEN)
             .quantity(-2L)
             .timestamp(Instant.now())
             .build();
 
 
         try {
-            bidValidator.validate(bid);
+            limitOrderValidator.validate(bid);
         } catch (ValidationException ve) {
 
             assertThat(ve.getFailures()).hasSize(1);
@@ -130,20 +130,20 @@ public class BidValidatorTest {
             .id(UUID.randomUUID().toString())
             .itemId("itemId")
             .userId("userId")
-            .pricePerUnit(BigDecimal.ZERO)
+            .price(BigDecimal.ZERO)
             .quantity(20L)
             .timestamp(Instant.now())
             .build();
 
 
         try {
-            bidValidator.validate(bid);
+            limitOrderValidator.validate(bid);
         } catch (ValidationException ve) {
 
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'pricePerUnit' must be present and cannot be less than or equal to zero")
+                new ValidationFailure("'price' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;
@@ -159,20 +159,20 @@ public class BidValidatorTest {
             .id(UUID.randomUUID().toString())
             .itemId("itemId")
             .userId("userId")
-            .pricePerUnit(BigDecimal.valueOf(-3))
+            .price(BigDecimal.valueOf(-3))
             .quantity(20L)
             .timestamp(Instant.now())
             .build();
 
 
         try {
-            bidValidator.validate(bid);
+            limitOrderValidator.validate(bid);
         } catch (ValidationException ve) {
 
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'pricePerUnit' must be present and cannot be less than or equal to zero")
+                new ValidationFailure("'price' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;

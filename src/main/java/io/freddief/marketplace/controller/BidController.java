@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(value = "/bid")
+@RestController
+@RequestMapping("/bid")
 public class BidController {
 
     private final BidService bidService;
