@@ -40,4 +40,9 @@ public class OfferController {
             .collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/items/{itemId}/lowest", method = RequestMethod.GET)
+    public Offer findLowestOfferByItemId(@PathVariable String itemId) {
+        return Offer.fromDomain(offerService.findLowestOfferByItemId(itemId));
+    }
+
 }

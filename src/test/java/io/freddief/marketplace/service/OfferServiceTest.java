@@ -1,6 +1,7 @@
 package io.freddief.marketplace.service;
 
 import io.freddief.marketplace.domain.Offer;
+import io.freddief.marketplace.exception.NotFoundException;
 import io.freddief.marketplace.repository.OfferRepository;
 import io.freddief.marketplace.validator.LimitOrderValidator;
 import org.assertj.core.util.Lists;
@@ -11,12 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OfferServiceTest {
@@ -31,7 +32,7 @@ public class OfferServiceTest {
     private Offer offer;
 
     @Before
-    public void setup () {
+    public void setup() {
         offer = Offer.builder()
             .id("id")
             .build();
@@ -70,6 +71,41 @@ public class OfferServiceTest {
         when(offerRepository.findAllByUserId(any())).thenReturn(Lists.newArrayList(offer));
         List<Offer> bids = offerService.findAllByUserId("userId");
         assertThat(bids).isEqualTo(bids);
+    }
+
+    @Test
+    public void findLowestOfferByItemId_callsRepository() {
+
+        when(offerRepository.findAllByItemId(anyString())).thenReturn(Lists.newArrayList(mock(Offer.class)));
+
+        offerService.findLowestOfferByItemId("item");
+
+        verify(offerRepository).findAllByItemId("item");
+
+    }
+
+    @Test
+    public void findLowestOfferByItemId_findsLowestOffer() {
+
+
+        Offer offer1 = mock(Offer.class);
+        Offer offer2 = mock(Offer.class);
+        Offer offer3 = mock(Offer.class);
+
+        when(offer1.getPrice()).thenReturn(BigDecimal.valueOf(3));
+        when(offer2.getPrice()).thenReturn(BigDecimal.valueOf(1));
+        when(offer3.getPrice()).thenReturn(BigDecimal.valueOf(2));
+
+        when(offerRepository.findAllByItemId(anyString())).thenReturn(Lists.newArrayList(offer1, offer2, offer3));
+
+        Offer returned = offerService.findLowestOfferByItemId("itemId");
+
+        assertThat(returned).isEqualTo(offer2);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void findLowestOfferByItemId_whenNoOffers_throwException() {
+        offerService.findLowestOfferByItemId("itemId");
     }
 
 }

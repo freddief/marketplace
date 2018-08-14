@@ -35,4 +35,29 @@ public class InMemoryOfferRepositoryTest {
 
     }
 
+
+    @Test
+    public void findAllByItemId() {
+
+        Offer offer1 = mock(Offer.class);
+        Offer offer2 = mock(Offer.class);
+        Offer offer3 = mock(Offer.class);
+
+        when(offer1.getItemId()).thenReturn("item1");
+        when(offer2.getItemId()).thenReturn("item2");
+        when(offer3.getItemId()).thenReturn("item1");
+
+        InMemoryOfferRepository inMemoryOfferRepository = new InMemoryOfferRepository();
+
+        inMemoryOfferRepository.create(offer1);
+        inMemoryOfferRepository.create(offer2);
+        inMemoryOfferRepository.create(offer3);
+
+        List<Offer> returned = inMemoryOfferRepository.findAllByItemId("item1");
+
+        assertThat(returned).hasSize(2);
+        assertThat(returned).contains(offer1, offer3);
+    }
+
+
 }

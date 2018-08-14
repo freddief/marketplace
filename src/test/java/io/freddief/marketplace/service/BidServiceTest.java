@@ -1,6 +1,7 @@
 package io.freddief.marketplace.service;
 
 import io.freddief.marketplace.domain.Bid;
+import io.freddief.marketplace.exception.NotFoundException;
 import io.freddief.marketplace.repository.BidRepository;
 import io.freddief.marketplace.validator.LimitOrderValidator;
 import org.assertj.core.util.Lists;
@@ -11,12 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BidServiceTest {
@@ -70,6 +72,40 @@ public class BidServiceTest {
         when(bidRepository.findAllByUserId(any())).thenReturn(Lists.newArrayList(bid));
         List<Bid> bids = bidService.findAllByUserId("userId");
         assertThat(bids).isEqualTo(bids);
+    }
+
+    @Test
+    public void findHighestBidByItemId_callsRepository() {
+
+        when(bidRepository.findAllByItemId(anyString())).thenReturn(Lists.newArrayList(mock(Bid.class)));
+
+        bidService.findHighestBidByItemId("item");
+
+        verify(bidRepository).findAllByItemId("item");
+
+    }
+
+    @Test
+    public void findHighestBidByItemId_findsHighest() {
+
+        Bid bid1 = mock(Bid.class);
+        Bid bid2 = mock(Bid.class);
+        Bid bid3 = mock(Bid.class);
+
+        when(bid1.getPrice()).thenReturn(BigDecimal.valueOf(1));
+        when(bid2.getPrice()).thenReturn(BigDecimal.valueOf(3));
+        when(bid3.getPrice()).thenReturn(BigDecimal.valueOf(2));
+
+        when(bidRepository.findAllByItemId(anyString())).thenReturn(Lists.newArrayList(bid1, bid2, bid3));
+
+        Bid returned = bidService.findHighestBidByItemId("item");
+
+        assertThat(returned).isEqualTo(bid2);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void findHighestBidByItemId_whenNoBids_throwException() {
+        bidService.findHighestBidByItemId("item");
     }
 
 }

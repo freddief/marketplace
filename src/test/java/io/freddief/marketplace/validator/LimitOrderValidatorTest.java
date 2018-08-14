@@ -2,7 +2,7 @@ package io.freddief.marketplace.validator;
 
 import io.freddief.marketplace.domain.Bid;
 import io.freddief.marketplace.exception.ValidationException;
-import io.freddief.marketplace.exception.ValidationFailure;
+import io.freddief.marketplace.exception.ErrorMessage;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,12 +51,12 @@ public class LimitOrderValidatorTest {
 
             assertThat(ve.getFailures()).containsAll(
                 Lists.newArrayList(
-                    new ValidationFailure("'id' must be present"),
-                    new ValidationFailure("'itemId' must be present"),
-                    new ValidationFailure("'quantity' must be present and cannot be less than or equal to zero"),
-                    new ValidationFailure("'price' must be present and cannot be less than or equal to zero"),
-                    new ValidationFailure("'userId' must be present"),
-                    new ValidationFailure("'timestamp' must be present")
+                    new ErrorMessage("'id' must be present"),
+                    new ErrorMessage("'itemId' must be present"),
+                    new ErrorMessage("'quantity' must be present and cannot be less than or equal to zero"),
+                    new ErrorMessage("'price' must be present and cannot be less than or equal to zero"),
+                    new ErrorMessage("'userId' must be present"),
+                    new ErrorMessage("'timestamp' must be present")
                 ));
 
             throw ve;
@@ -85,7 +85,7 @@ public class LimitOrderValidatorTest {
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'quantity' must be present and cannot be less than or equal to zero")
+                new ErrorMessage("'quantity' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;
@@ -114,7 +114,7 @@ public class LimitOrderValidatorTest {
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'quantity' must be present and cannot be less than or equal to zero")
+                new ErrorMessage("'quantity' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;
@@ -143,7 +143,7 @@ public class LimitOrderValidatorTest {
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'price' must be present and cannot be less than or equal to zero")
+                new ErrorMessage("'price' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;
@@ -172,7 +172,7 @@ public class LimitOrderValidatorTest {
             assertThat(ve.getFailures()).hasSize(1);
 
             assertThat(ve.getFailures()).contains(
-                new ValidationFailure("'price' must be present and cannot be less than or equal to zero")
+                new ErrorMessage("'price' must be present and cannot be less than or equal to zero")
             );
 
             throw ve;

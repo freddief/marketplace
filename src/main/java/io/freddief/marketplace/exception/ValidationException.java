@@ -11,14 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ValidationException extends RuntimeException {
 
-    private final List<ValidationFailure> failures;
+    private final List<ErrorMessage> failures;
 
-    public ValidationException(ValidationFailure failure) {
+    public ValidationException(ErrorMessage failure) {
         super();
         this.failures = Lists.newArrayList(failure);
     }
 
-    public ValidationException(ValidationFailure... failures) {
+    public ValidationException(ErrorMessage... failures) {
         super();
         this.failures = Lists.newArrayList(failures);
     }

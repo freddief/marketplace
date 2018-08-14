@@ -7,13 +7,13 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public class ValidationFailure {
+public class ErrorMessage {
 
-    private final String reason;
+    private final String message;
 
     @JsonCreator
-    public ValidationFailure(@JsonProperty("reason") String reason) {
-        this.reason = reason;
+    public ErrorMessage(@JsonProperty("message") String message) {
+        this.message = message;
     }
 
 }

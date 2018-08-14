@@ -32,4 +32,17 @@ public class InMemoryOfferRepository implements OfferRepository {
             .collect(Collectors.toList());
     }
 
+
+    @Override
+    public List<Offer> findAllByItemId(String itemId) {
+        return offers
+            .stream()
+            .filter(b -> b.getItemId().equals(itemId))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        offers.clear();
+    }
 }

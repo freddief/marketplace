@@ -32,4 +32,16 @@ public class InMemoryBidRepository implements BidRepository {
             .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Bid> findAllByItemId(String itemId) {
+        return bids
+            .stream()
+            .filter(b -> b.getItemId().equals(itemId))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        bids.clear();
+    }
 }

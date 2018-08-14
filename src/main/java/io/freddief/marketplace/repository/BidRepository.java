@@ -10,4 +10,8 @@ public interface BidRepository {
 
     List<Bid> findAllByUserId(String userId);
 
+    List<Bid> findAllByItemId(String itemId);
+
+    void deleteAll();
+
 }

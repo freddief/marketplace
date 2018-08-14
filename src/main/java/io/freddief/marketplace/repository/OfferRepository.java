@@ -10,4 +10,8 @@ public interface OfferRepository {
 
     List<Offer> findAllByUserId(String userId);
 
+    List<Offer> findAllByItemId(String itemId);
+
+    void deleteAll();
+
 }

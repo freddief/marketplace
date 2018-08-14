@@ -60,10 +60,10 @@ public class CreateBidTest extends BaseAcceptanceTest {
             .post(formatUrl("/bids"))
         .then()
             .statusCode(400)
-            .body("[0].reason", is("'itemId' must be present"))
-            .body("[1].reason", is("'quantity' must be present and cannot be less than or equal to zero"))
-            .body("[2].reason", is("'price' must be present and cannot be less than or equal to zero"))
-            .body("[3].reason", is("'userId' must be present"));
+            .body("[0].message", is("'itemId' must be present"))
+            .body("[1].message", is("'quantity' must be present and cannot be less than or equal to zero"))
+            .body("[2].message", is("'price' must be present and cannot be less than or equal to zero"))
+            .body("[3].message", is("'userId' must be present"));
 
     }
 

@@ -40,4 +40,9 @@ public class BidController {
             .collect(Collectors.toList());
     }
 
+    @RequestMapping(value = "/items/{itemId}/highest", method = RequestMethod.GET)
+    public Bid findHighestBidByItemId(@PathVariable String itemId) {
+        return Bid.fromDomain(bidService.findHighestBidByItemId(itemId));
+    }
+
 }
